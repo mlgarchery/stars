@@ -1,34 +1,11 @@
 
-function love.load()
-    success = love.window.setFullscreen( true )
-    local width = love.graphics.getWidth() or 0
-    local height = love.graphics.getHeight() or 0
-    -- print("Full Screen success: " .. tostring(success))
-    love.window.setTitle("Stars: Gigantic")
-    
+-- depending on the player command, we move from one mode to the other
 
-    planet = love.graphics.newImage("picture/planet.png")
+mode = "planet"
 
-
-    -- testing the classes before going handy
-    
-    -- local tile = require "pack/tile"
-    -- t = tile(1,2)
-    -- t:displaySize()
-
-    local player = require"pack/player"
-    p = player({x=width/2, y=height/2})
-    p:load()
-    
+if mode == "spatial" then
+    dofile("scene/spatial_exploration.lua")
+else 
+    dofile("scene/planet_exploration.lua")
 end
 
-
-function love.draw()
-    love.graphics.draw(planet, 400, 350)
-    p:draw()
-end
-
-
-function love.update()
-    p:update()
-end

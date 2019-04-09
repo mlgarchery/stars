@@ -1,7 +1,7 @@
 --[[
     All about the player class.
     
-    The player should only we aware (its game state keeping in memory) the 9 nearby tiles.
+    The player should only be aware (its game state stays in memory) of the 9 nearby tiles.
 
     TODO:
     first a(the) player pop on a tile in map.
