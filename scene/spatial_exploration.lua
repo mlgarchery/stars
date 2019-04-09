@@ -9,15 +9,8 @@ function love.load()
 
     planet = love.graphics.newImage("picture/planet.png")
 
-
-    -- testing the classes before going handy
-    
-    -- local tile = require "pack/tile"
-    -- t = tile(1,2)
-    -- t:displaySize()
-
-    local player = require"pack/player"
-    p = player({x=width/2, y=height/2})
+    local rocket = require"pack/rocket"
+    p = rocket({x=width/2, y=height/2})
     p:load()
     
 end
@@ -27,8 +20,7 @@ function love.draw()
     -- love.graphics.draw(planet, 400, 350)
     vertices = {100,100, 200,200, 100, 150}
     love.graphics.polygon("fill", vertices)
-    -- p:draw()
-    love.graphics.circle("fill", width/2, height/2, 100)
+    p:draw()
 end
 
 

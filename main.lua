@@ -1,7 +1,7 @@
 
 -- depending on the player command, we move from one mode to the other
 
-mode = "planet"
+mode = "spatial" -- "planet" or "spatial"
 
 if mode == "spatial" then
     dofile("scene/spatial_exploration.lua")
