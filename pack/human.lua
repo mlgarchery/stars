@@ -15,6 +15,7 @@ local human = Class({
         self.timer = 0.1
 
         self.angle = 0 -- degres
+
     end,
     speed = 10
 })
@@ -37,7 +38,7 @@ function human:draw()
             If we consider the hypothesis of x_size_picture, y_size_picture as the values of the two variables below, then the picture will be drawn at self.planet.x and self.planet.y but with the origin being in the bottom-right corner.
         ]]
         self.picture:getWidth()/2,
-        self.planet.radius + self.picture:getHeight()
+        self.planet.radius + self.picture:getHeight()*0.4
     )
 end
 
