@@ -12,7 +12,6 @@ local planet = Class{
 
         -- create somethiong similar to an atmosphere
         self.godsray_effect = moonshine(moonshine.effects.godsray)
-        self.godsray_effect.samples = 5
     end,
 
 }

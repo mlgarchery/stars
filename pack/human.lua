@@ -14,11 +14,43 @@ local human = Class({
         self.picture = human
         self.timer = 0.1
 
-        self.angle = 0 -- degres
+        self.angle = 0
+         -- degres (self made angle). In fact this angle corresponds to +270 degres.
+        --[[ In love2D:
+        + angle is clockwise (not trigonometry standart)
+        and origin is standart
+            |
+        
+        --       -- <- this is 0 deg
+            |
 
+        and the
+        ]]
+        self.angle_shift = 2* math.pi/planet.segments
+        
+        
     end,
     speed = 10
 })
+
+function human:compute_i()
+    i = math.floor(
+        (math.rad(self.angle) - (3/2)*math.pi) / self.angle_shift
+    )
+    print(i)
+    return i
+end
+
+function human:draw_slot()
+    i = self:compute_i()
+    distance = 5
+    -- the distance to add to the line so that it touchs the circle in one point
+    x1 = self.planet.x + (self.planet.radius+distance)*math.cos((i-1)*self.angle_shift)
+    y1 = self.planet.y + (self.planet.radius+distance)*math.sin((i-1)*self.angle_shift)
+    x2 = self.planet.x + (self.planet.radius+distance)*math.cos((i)*self.angle_shift)
+    y2 = self.planet.y + (self.planet.radius+distance)*math.sin((i)*self.angle_shift)
+    love.graphics.line(x1,y1,x2,y2)
+end
 
 
 function human:draw()
@@ -40,6 +72,7 @@ function human:draw()
         self.picture:getWidth()/2,
         self.planet.radius + self.picture:getHeight()*0.4
     )
+    self:draw_slot()
 end
 
 function human:animate(dt)
@@ -54,7 +87,7 @@ function human:animate(dt)
     else
         self.timer = self.timer - dt
     end
-    print(self.timer)
+    -- print(self.timer)
 end
 
 
@@ -63,7 +96,7 @@ end
 -- update state
 function human:rotate(angle)
     self.angle = (self.angle + angle) % 360
-    -- print(self.angle)
+    print(self.angle)
 end
 
 
