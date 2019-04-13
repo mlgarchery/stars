@@ -12,15 +12,16 @@ local planet = Class{
 
         -- create somethiong similar to an atmosphere
         self.godsray_effect = moonshine(moonshine.effects.godsray)
+        self.godsray_effect.samples = 20
     end,
 
 }
 
 function planet:draw()
     -- apparently the godsray effect is dramatically impacting the performance
-    self.godsray_effect(function()
+    -- self.godsray_effect(function()
         love.graphics.circle("line", self.x, self.y, self.radius)
-    end)
+    -- end)
     -- and the segments (the polygon on which we can add buildings)
     love.graphics.circle("line", self.x, self.y, self.radius, self.segments)
 end

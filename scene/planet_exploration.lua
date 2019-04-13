@@ -6,7 +6,7 @@ function love.load()
     height = love.graphics.getHeight() or 0
 
     local planet = require"../pack/planet"
-    pl = planet({width/2, height/2}, 200, 6)
+    pl = planet({width/2, height/2}, 200, 7)
     local human = require"../pack/human"
     hu = human(pl)
     -- hu.picture:getHeight()
