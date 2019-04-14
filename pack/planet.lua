@@ -8,11 +8,17 @@ local planet = Class{
     init = function(self, position, radius, segments)
         self.x, self.y = position[1], position[2]
         self.radius = radius
-        self.segments = segments
+        self.segments = segments --number of points
+
+        --
+        -- self.metal = quantity
+        -- self.slots = segments - 1 or
+
 
         -- create somethiong similar to an atmosphere
         self.godsray_effect = moonshine(moonshine.effects.godsray)
         self.godsray_effect.samples = 20
+
     end,
 
 }

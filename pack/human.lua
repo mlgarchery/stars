@@ -4,6 +4,7 @@
 
 local Class = require "ext_pack/hump/class" -- siplified classes syntactic sugar
 
+
 local human = Class({
     init = function(self, planet) -- a human is always bound to a planet
         self.planet = planet
@@ -146,6 +147,7 @@ function human:update(dt)
     elseif love.keyboard.isScancodeDown("d") then
         self:rotate(human.speed)
         self:animate(dt)
+    elseif love.keyboard.isScancodeDown("z") then
     end
 end
 
