@@ -3,7 +3,7 @@
 ]]
 
 local Class = require "ext_pack/hump/class" -- siplified classes syntactic sugar
-
+local build_menu = require "pack/build_menu"
 
 local human = Class({
     init = function(self, planet) -- a human is always bound to a planet
@@ -32,9 +32,11 @@ local human = Class({
         ]]
         self.angle_shift = 2 * math.pi / planet.segments
         self.slot_num = self:get_current_slot()
+
+        self.build_menu = nil
         
     end,
-    speed = 1
+    move_speed = 3
 })
 
 -- setters of attributes
@@ -55,10 +57,14 @@ function human:set_slot_num(new_slot_num)
     self.slot_num = new_slot_num
     -- then need to do something
     love.audio.play(self.slot_changed_sound)
-
+    
 end
 
+function human:set_build_menu(new_build_value)
+    self.build_menu = new_build_value
+end
 
+--
 -- non defined category (yet)
 function human:get_current_slot()
     -- current_slot
@@ -66,10 +72,6 @@ function human:get_current_slot()
         math.rad(self.angle) / self.angle_shift
         --
     )
-    if slot_num ~= self.slot_num then
-        love.audio.stop()
-        self:set_slot_num(slot_num)
-    end
     return slot_num
 end
 
@@ -81,8 +83,12 @@ function human:get_slot_line(slot_num)
     return {x1, y1, x2, y2}
 end
 
+
+
 -- DRAW FUNCTIONS
 --
+
+
 function human:draw_slot_focus()
     slot_num = self:get_current_slot() + 1 -- the focused slot is next to the human, for more visibility
     -- the distance to add to the line so that it touchs the circle in one point
@@ -114,6 +120,10 @@ function human:draw()
         self.planet.radius + self.picture:getHeight()*0.4
     )
     self:draw_slot_focus()
+
+    if self.build_menu then
+        self.build_menu:draw()
+    end
 end
 
 -- UPDATE STATE FUNCTIONS
@@ -141,16 +151,40 @@ end
 function human:update(dt)
     -- TODO: take the player input from the player class [example player:keyboardInput method]
     -- for now :
+
+    -- update of self.slot_num
+    local slot_num = self:get_current_slot()
+    if slot_num ~= self.slot_num then
+        -- we do something when we notice it changed
+        love.audio.stop() -- stop the slot_focus sound
+        self:set_slot_num(slot_num)
+
+        -- we destroy the build menu
+        self:set_build_menu(nil)
+    end
+
+
     if love.keyboard.isScancodeDown("a") then
-        self:rotate(-human.speed) --> -3 deg
+        self:rotate(-human.move_speed) --> -3 deg
         self:animate(dt)
     elseif love.keyboard.isScancodeDown("d") then
-        self:rotate(human.speed)
+        self:rotate(human.move_speed)
         self:animate(dt)
-    elseif love.keyboard.isScancodeDown("z") then
+    elseif love.keyboard.isScancodeDown("space") then
+        -- create a new menu
+        self:set_build_menu(
+            build_menu(self.planet, self)
+        )
+    end
+
+    -- update of any existing build_menu, based on its internal state
+    if self.build_menu then
+        self.build_menu:update()
+        if self.build_menu.signal_close then
+            self:set_build_menu(nil)
+        end
     end
 end
-
 
 --
 return human
