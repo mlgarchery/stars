@@ -7,7 +7,8 @@ local Suit = require "ext_pack/suit"
 local build_menu = Class({
     init = function(self, planet, human)
         self.planet = planet
-        self.choices_table = self:get_build_choices() or {{text="Build something"} }
+        self.human = human
+        self.choices_table = self:get_build_choices() or {{text="Build launcher"} }
         self.selected_choice = self.choices_table[1]
 
         self.ui = Suit.new() -- new ui state
@@ -33,8 +34,17 @@ function build_menu:update()
         self.signal_close = true
     end
 
-    for i=1,#self.choices_table do
-        self.ui:Button(self.choices_table[i].text, self.ui.layout:row(unpack(build_menu.size)))
+    if self.ui:Button(self.choices_table[1].text, self.ui.layout:row(unpack(build_menu.size))).hit then
+        -- if Build launcher is pressed, we set the planet slot to "launcher"
+        -- the planet has to render its slots (and the building on it correctly)
+        self.planet:set_slot(
+            self.human.slot_num,
+            {
+                "Launcher", -- name
+                self.planet.launcher_picture, -- picture
+                self.human:get_slot_line(self.human.slot_num+1) -- line of the current slot
+            }
+        )
     end
 end
 

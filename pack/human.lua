@@ -31,12 +31,12 @@ local human = Class({
         and the
         ]]
         self.angle_shift = 2 * math.pi / planet.segments
-        self.slot_num = self:get_current_slot()
+        self.slot_num = self:compute_current_slot_num()
 
         self.build_menu = nil
         
     end,
-    move_speed = 3
+    move_speed = 1
 })
 
 -- setters of attributes
@@ -66,7 +66,7 @@ end
 
 --
 -- non defined category (yet)
-function human:get_current_slot()
+function human:compute_current_slot_num()
     -- current_slot
     slot_num = math.floor(
         math.rad(self.angle) / self.angle_shift
@@ -90,7 +90,7 @@ end
 
 
 function human:draw_slot_focus()
-    slot_num = self:get_current_slot() + 1 -- the focused slot is next to the human, for more visibility
+    slot_num = self:compute_current_slot_num() + 1 -- the focused slot is next to the human, for more visibility
     -- the distance to add to the line so that it touchs the circle in one point
     x1, y1, x2, y2 = unpack(self:get_slot_line(slot_num))
     love.graphics.setColor(250, 0, 0) -- set color to red
@@ -153,7 +153,7 @@ function human:update(dt)
     -- for now :
 
     -- update of self.slot_num
-    local slot_num = self:get_current_slot()
+    local slot_num = self:compute_current_slot_num()
     if slot_num ~= self.slot_num then
         -- we do something when we notice it changed
         love.audio.stop() -- stop the slot_focus sound
@@ -184,6 +184,7 @@ function human:update(dt)
             self:set_build_menu(nil)
         end
     end
+
 end
 
 --
