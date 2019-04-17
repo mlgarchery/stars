@@ -15,7 +15,7 @@ function love.load()
     local height = love.graphics.getHeight() or 0
     
     
-    pl = planet({width/2, height/2}, 200, 7)
+    pl = planet({width/2, height/2}, 200, 5)
     hu = human(pl)
     -- hu.picture:getHeight()
 end

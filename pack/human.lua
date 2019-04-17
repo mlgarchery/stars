@@ -30,9 +30,7 @@ local human = Class({
 
         and the
         ]]
-        self.angle_shift = 2 * math.pi / planet.segments
         self.slot_num = self:compute_current_slot_num()
-
         self.build_menu = nil
         
     end,
@@ -69,17 +67,17 @@ end
 function human:compute_current_slot_num()
     -- current_slot
     slot_num = math.floor(
-        math.rad(self.angle) / self.angle_shift
+        math.rad(self.angle) / self.planet.angle_shift
         --
     )
     return slot_num
 end
 
 function human:get_slot_line(slot_num)
-    x1 = self.planet.x + self.planet.radius*math.cos((slot_num)*self.angle_shift)
-    y1 = self.planet.y + self.planet.radius*math.sin((slot_num)*self.angle_shift)
-    x2 = self.planet.x + self.planet.radius*math.cos((slot_num+1)*self.angle_shift)
-    y2 = self.planet.y + self.planet.radius*math.sin((slot_num+1)*self.angle_shift)
+    x1 = self.planet.x + self.planet.radius*math.cos((slot_num)*self.planet.angle_shift)
+    y1 = self.planet.y + self.planet.radius*math.sin((slot_num)*self.planet.angle_shift)
+    x2 = self.planet.x + self.planet.radius*math.cos((slot_num+1)*self.planet.angle_shift)
+    y2 = self.planet.y + self.planet.radius*math.sin((slot_num+1)*self.planet.angle_shift)
     return {x1, y1, x2, y2}
 end
 

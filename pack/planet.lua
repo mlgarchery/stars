@@ -11,6 +11,7 @@ local planet = Class{
         self.radius = radius
         self.segments = segments --number of points
         
+        self.angle_shift = 2 * math.pi / segments
         
         --
         -- self.metal = quantity
@@ -31,7 +32,7 @@ local planet = Class{
 -- SETTERS
 function planet:set_slot(slot_number, slot)
     -- slot is a dict with the name of the slot and the image
-    self.slots.slot_number = slot
+    self.slots[slot_number] = slot
     
 end
 
@@ -48,9 +49,9 @@ function planet:draw_buildings()
             slot[2], 
             mid_slot_x,
             mid_slot_y,
-            0,
-            1,
-            1,
+            math.pi/2 + (slot_num * self.angle_shift /2),
+            0.7,
+            0.7,
             self.launcher_picture:getWidth()/2,
             self.launcher_picture:getHeight()
         )
@@ -60,9 +61,9 @@ end
 
 function planet:draw()
     -- apparently the godsray effect is dramatically impacting the performance
-    -- self.godsray_effect(function()
+    self.godsray_effect(function()
         love.graphics.circle("line", self.x, self.y, self.radius)
-    -- end)
+    end)
     -- and the segments (the polygon on which we can add buildings)
     love.graphics.circle("line", self.x, self.y, self.radius, self.segments)
 

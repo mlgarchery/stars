@@ -34,6 +34,7 @@ function build_menu:update()
         self.signal_close = true
     end
 
+    
     if self.ui:Button(self.choices_table[1].text, self.ui.layout:row(unpack(build_menu.size))).hit then
         -- if Build launcher is pressed, we set the planet slot to "launcher"
         -- the planet has to render its slots (and the building on it correctly)
