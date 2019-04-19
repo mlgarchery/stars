@@ -122,6 +122,7 @@ function human:draw()
     if self.build_menu then
         self.build_menu:draw()
     end
+
 end
 
 -- UPDATE STATE FUNCTIONS

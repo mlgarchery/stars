@@ -34,16 +34,16 @@ function build_menu:update()
         self.signal_close = true
     end
 
-    
     if self.ui:Button(self.choices_table[1].text, self.ui.layout:row(unpack(build_menu.size))).hit then
         -- if Build launcher is pressed, we set the planet slot to "launcher"
         -- the planet has to render its slots (and the building on it correctly)
-        self.planet:set_slot(
-            self.human.slot_num,
+        local slot_num = (self.human.slot_num + 1) % self.planet.nb_slots
+        self.planet:build_on_slot(
+            slot_num, -- slot_num of the building
             {
                 "Launcher", -- name
                 self.planet.launcher_picture, -- picture
-                self.human:get_slot_line(self.human.slot_num+1) -- line of the current slot
+                self.human:get_slot_line(slot_num)
             }
         )
     end

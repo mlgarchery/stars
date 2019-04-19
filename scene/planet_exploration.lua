@@ -3,7 +3,7 @@ local planet = require "pack/planet"
 
 
 function love.load()
-    -- local success = love.window.setFullscreen( true )
+    local success = love.window.setFullscreen( true )
     love.window.setTitle("Stars: Gigantic")
     
     -- set font

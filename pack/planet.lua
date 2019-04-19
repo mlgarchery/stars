@@ -6,16 +6,16 @@ local Moonshine = require "ext_pack/moonshine"
 local Vector = require "ext_pack/hump/vector"
 
 local planet = Class{
-    init = function(self, position, radius, segments)
+    init = function(self, position, radius, nb_slots)
         self.x, self.y = unpack(position)
         self.radius = radius
-        self.segments = segments --number of points
+        self.nb_slots = nb_slots --number of edges/slots
         
-        self.angle_shift = 2 * math.pi / segments
+        self.angle_shift = 2 * math.pi / nb_slots
         
         --
         -- self.metal = quantity
-        -- self.slots = segments - 1 or
+        -- self.slots = nb_slots - 1 or
         
         -- create somethiong similar to an atmosphere
         self.godsray_effect = Moonshine(Moonshine.effects.godsray)
@@ -30,8 +30,8 @@ local planet = Class{
 }
 
 -- SETTERS
-function planet:set_slot(slot_number, slot)
-    -- slot is a dict with the name of the slot and the image
+function planet:build_on_slot(slot_number, slot)
+    -- slot is a dict with the slot_num, and a building dict (later a building object)
     self.slots[slot_number] = slot
     
 end
@@ -39,24 +39,30 @@ end
 
 -- DRAW
 function planet:draw_buildings()
+    -- draw each building at the right slots
     for slot_num, slot in pairs(self.slots) do
+        
         x1, y1, x2, y2 = unpack(slot[3])
         first_vector = Vector(x1, y1)
         second_vector = Vector(x2, y2)
 
-        mid_slot_x, mid_slot_y = (first_vector + (second_vector-first_vector)/2):unpack()
+        mid_slot_vect = first_vector + (second_vector-first_vector)/2
+
+        love.graphics.line(self.x, self.y, mid_slot_vect:unpack())
+
+        print(slot_num)
         love.graphics.draw(
             slot[2], 
-            mid_slot_x,
-            mid_slot_y,
-            math.pi/2 + (slot_num * self.angle_shift /2),
-            0.7,
-            0.7,
+            mid_slot_vect.x,
+            mid_slot_vect.y,
+            -- math.rad(90) +(mid_slot_vect - Vector(self.x, self.y)):angleTo(Vector(1,0)),
+            math.rad(90) + slot_num * self.angle_shift + self.angle_shift/2,
+            1,
+            1,
             self.launcher_picture:getWidth()/2,
             self.launcher_picture:getHeight()
         )
     end
-    -- draw each building at the right slots
 end
 
 function planet:draw()
@@ -64,8 +70,8 @@ function planet:draw()
     self.godsray_effect(function()
         love.graphics.circle("line", self.x, self.y, self.radius)
     end)
-    -- and the segments (the polygon on which we can add buildings)
-    love.graphics.circle("line", self.x, self.y, self.radius, self.segments)
+    -- and the nb_slots (the polygon on which we can add buildings)
+    love.graphics.circle("line", self.x, self.y, self.radius, self.nb_slots)
 
     -- we draw the buildings on the slots
     self:draw_buildings()
