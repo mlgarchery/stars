@@ -24,7 +24,8 @@ local planet = Class{
         self.slots = {} -- containing the buildings
 
         -- resources
-        self.launcher_picture = love.graphics.newImage("picture/building_launcher.png")
+        self.launcher_picture = love.graphics.newImage("picture/building_launcher_2.png")
+        self.building_scale = 2 * radius * math.sin(self.angle_shift/2) / self.launcher_picture:getWidth()
     end,
 
 }
@@ -47,18 +48,17 @@ function planet:draw_buildings()
         second_vector = Vector(x2, y2)
 
         mid_slot_vect = first_vector + (second_vector-first_vector)/2
+        -- vector pointing to the middle of the slot line
 
-        love.graphics.line(self.x, self.y, mid_slot_vect:unpack())
-
-        print(slot_num)
+        -- love.graphics.line(self.x, self.y, mid_slot_vect:unpack())
         love.graphics.draw(
             slot[2], 
             mid_slot_vect.x,
             mid_slot_vect.y,
             -- math.rad(90) +(mid_slot_vect - Vector(self.x, self.y)):angleTo(Vector(1,0)),
             math.rad(90) + slot_num * self.angle_shift + self.angle_shift/2,
-            1,
-            1,
+            self.building_scale,
+            self.building_scale,
             self.launcher_picture:getWidth()/2,
             self.launcher_picture:getHeight()
         )

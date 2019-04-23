@@ -30,14 +30,18 @@ end
 
 function build_menu:update()
     self.ui.layout:reset(self.planet.x, self.planet.y)
+    local slot_num = (self.human.slot_num + 1) % self.planet.nb_slots
     if self.ui:Button("X", self.ui.layout:row(unpack(build_menu.size))).hit then
         self.signal_close = true
+        self.planet:build_on_slot(
+            slot_num,
+            nil
+        )
     end
 
     if self.ui:Button(self.choices_table[1].text, self.ui.layout:row(unpack(build_menu.size))).hit then
         -- if Build launcher is pressed, we set the planet slot to "launcher"
         -- the planet has to render its slots (and the building on it correctly)
-        local slot_num = (self.human.slot_num + 1) % self.planet.nb_slots
         self.planet:build_on_slot(
             slot_num, -- slot_num of the building
             {
@@ -46,6 +50,8 @@ function build_menu:update()
                 self.human:get_slot_line(slot_num)
             }
         )
+        
+        self.signal_close = trueq
     end
 end
 

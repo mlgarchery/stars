@@ -3,7 +3,7 @@ local planet = require "pack/planet"
 
 
 function love.load()
-    local success = love.window.setFullscreen( true )
+    -- local success = love.window.setFullscreen( true )
     love.window.setTitle("Stars: Gigantic")
     
     -- set font
@@ -15,7 +15,7 @@ function love.load()
     local height = love.graphics.getHeight() or 0
     
     
-    pl = planet({width/2, height/2}, 200, 5)
+    pl = planet({width/2, height/2}, 200, 10)
     hu = human(pl)
     -- hu.picture:getHeight()
 end

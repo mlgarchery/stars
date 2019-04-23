@@ -32,9 +32,9 @@ local human = Class({
         ]]
         self.slot_num = self:compute_current_slot_num()
         self.build_menu = nil
-        
+
     end,
-    move_speed = 1
+    move_speed = 3
 })
 
 -- setters of attributes
